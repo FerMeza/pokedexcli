@@ -125,6 +125,48 @@ func commandMap(config *config) error {
 	return nil
 }
 
+func commandMapB(config *config) error {
+	if config == nil {
+		panic("Invalid state on command mapb")
+	}
+	url := config.Previous
+	if url == nil {
+		fmt.Println("you're on the first page")
+		return nil
+	}
+
+	req, err := http.NewRequest(http.MethodGet, *url, nil)
+
+	if err != nil {
+		return fmt.Errorf("error creating request: %v", err)
+	}
+
+	client := http.DefaultClient
+	res, err := client.Do(req)
+
+	if err != nil {
+		return fmt.Errorf("error sending request: %v", err)
+	}
+
+	defer res.Body.Close()
+
+	var pokeAreas responsePokeArea
+
+	err = json.NewDecoder(res.Body).Decode(&pokeAreas)
+	if err != nil {
+		return fmt.Errorf("error decoding response: %v", err)
+	}
+
+	for _, area := range pokeAreas.Results {
+		fmt.Println(area.Name)
+	}
+
+	config.Next = pokeAreas.Next
+	config.Previous = pokeAreas.Previous
+
+	return nil
+}
+
 type cliCommand struct {
 	name        string
 	description string
@@ -145,8 +187,13 @@ func init() {
 		},
 		"map": {
 			name:        "map",
-			description: "Displays names of 20 location areas",
+			description: "Displays names of next 20 location areas",
 			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Displays names of previous 20 locations areas",
+			callback:    commandMapB,
 		},
 	}
 }
