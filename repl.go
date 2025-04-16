@@ -87,8 +87,8 @@ func init() {
 			callback:    commandMapB,
 		},
 		"explore": {
-			name:        "explore",
-			description: "Lists pokemons of given location name",
+			name:        "explore <location_name>",
+			description: "Explore a location",
 			callback:    commandExplore,
 		},
 	}

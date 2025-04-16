@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func (c *Client) GetLocationDetail(locationName string) (RespFullLocation, error) {
+func (c *Client) GetLocation(locationName string) (RespFullLocation, error) {
 	url := baseURL + "/location-area/" + locationName
 
 	var pokeLocation RespFullLocation

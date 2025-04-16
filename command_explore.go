@@ -11,7 +11,7 @@ func commandExplore(config *config, args ...string) error {
 	}
 
 	location := args[0]
-	locationDetail, err := config.pokeAPIClient.GetLocationDetail(location)
+	locationDetail, err := config.pokeAPIClient.GetLocation(location)
 
 	if err != nil {
 		return err
