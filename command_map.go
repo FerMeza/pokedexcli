@@ -27,6 +27,11 @@ func commandMapB(config *config) error {
 		panic("Invalid state on command mapb")
 	}
 
+	if config.previousLocationsURL == nil {
+		fmt.Println("you're on the first page")
+		return nil
+	}
+
 	pokeAreas, err := config.pokeAPIClient.ListLocations(config.previousLocationsURL)
 	if err != nil {
 		return err
