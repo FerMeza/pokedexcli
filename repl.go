@@ -37,9 +37,9 @@ func startRepl(cfg *config) {
 				fmt.Println("Unknown command")
 				continue
 			} else {
-				err := command.callback(cfg)
+				err := command.callback(cfg, cleanInput[1:]...)
 				if err != nil {
-					fmt.Printf("error executing command: %v", err)
+					fmt.Printf("error executing command: %v\n", err)
 				}
 			}
 		}
@@ -61,7 +61,7 @@ func cleanInput(text string) []string {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 func init() {
@@ -85,6 +85,11 @@ func init() {
 			name:        "mapb",
 			description: "Displays names of previous 20 locations areas",
 			callback:    commandMapB,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Lists pokemons of given location name",
+			callback:    commandExplore,
 		},
 	}
 }

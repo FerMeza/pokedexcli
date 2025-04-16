@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func commandMap(config *config) error {
+func commandMap(config *config, args ...string) error {
 	if config == nil {
 		panic("Invalid state on command map")
 	}
@@ -22,7 +22,7 @@ func commandMap(config *config) error {
 	return nil
 }
 
-func commandMapB(config *config) error {
+func commandMapB(config *config, args ...string) error {
 	if config == nil {
 		panic("Invalid state on command mapb")
 	}
