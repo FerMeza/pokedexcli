@@ -98,7 +98,7 @@ func init() {
 		},
 		"inspect": {
 			name:        "inspect <pokemon_name>",
-			description: "inspect pokemon",
+			description: "View details about a caught Pokemon",
 			callback:    commandInspect,
 		},
 	}
