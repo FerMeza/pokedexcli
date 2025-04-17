@@ -15,15 +15,18 @@ func commandCatch(config *config, args ...string) error {
 	}
 
 	pokemonName := args[0]
-	pokemonDetail, err := config.pokeAPIClient.GetPokemon(pokemonName)
-
-	if err != nil {
-		return err
+	pokemon, ok := pokedex.Pokedex[pokemonName]
+	if !ok {
+		pokemonDetail, err := config.pokeAPIClient.GetPokemon(pokemonName)
+		if err != nil {
+			return err
+		}
+		pokemon = pokedex.MapPokemonApiToDomain(&pokemonDetail)
 	}
 
 	fmt.Printf("Throwing a Pokeball at %s...\n", pokemonName)
 
-	baseExp := pokemonDetail.BaseExperience
+	baseExp := pokemon.BaseExperience
 	const currMaxBaseExperience = 608
 
 	if baseExp > 608 {
@@ -45,12 +48,7 @@ func commandCatch(config *config, args ...string) error {
 	}
 
 	if caught {
-		_, ok := pokedex.Pokedex[pokemonName]
 		if !ok {
-			pokemon := pokedex.Pokemon{
-				Name:           pokemonName,
-				BaseExperience: pokemonDetail.BaseExperience,
-			}
 			pokedex.Pokedex[pokemonName] = pokemon
 		}
 		fmt.Printf("%s was caught!\n", pokemonName)
