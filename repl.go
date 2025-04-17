@@ -96,5 +96,10 @@ func init() {
 			description: "Throw pokeball to pokemon",
 			callback:    commandCatch,
 		},
+		"inspect": {
+			name:        "inspect <pokemon_name>",
+			description: "inspect pokemon",
+			callback:    commandInspect,
+		},
 	}
 }
